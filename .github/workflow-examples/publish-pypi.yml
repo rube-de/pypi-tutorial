@@ -1,0 +1,55 @@
+name: Publish to PyPI (Production)
+
+on:
+  release:
+    types: [published]  # Only on manual GitHub releases
+  workflow_dispatch:    # Allow manual trigger with approval
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/example-package-rube
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        enable-cache: true
+    
+    - name: Set up Python
+      run: uv python install 3.12
+    
+    - name: Build package
+      run: uv build
+    
+    - name: Verify version tag
+      run: |
+        VERSION=$(git describe --tags --abbrev=0)
+        echo "🏷️ Publishing version: $VERSION"
+        # Ensure we're on a proper version tag
+        if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "❌ Error: Version $VERSION doesn't match pattern vX.Y.Z"
+          exit 1
+        fi
+    
+    - name: Publish to PyPI
+      run: |
+        echo "📦 Publishing to PyPI (Production)"
+        echo "⚠️  This is PRODUCTION - package will be publicly available"
+        uv publish dist/*
+    
+    - name: Verify installation
+      run: |
+        echo "📥 Verifying installation from PyPI..."
+        # Wait a moment for PyPI to update
+        sleep 10
+        uv pip install example-package-rube

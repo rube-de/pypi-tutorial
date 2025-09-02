@@ -24,3 +24,6 @@ __pycache__/
 venv/
 env/
 .env
+
+# Auto-generated version file (hatch-vcs)
+src/example_package_rube/_version.py
