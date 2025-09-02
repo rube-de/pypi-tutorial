@@ -89,13 +89,29 @@ Choose one authentication method:
 
 ### Configure TestPyPI (one-time setup)
 
-Add to your `pyproject.toml`:
+Preferred: set the publish URL only (does not affect dependency resolution):
+
+```bash
+export UV_PUBLISH_URL="https://test.pypi.org/legacy/"
+```
+
+Optional (not recommended for general use): add a TestPyPI index to `pyproject.toml`:
 
 ```toml
 [[tool.uv.index]]
 name = "testpypi"
 url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"
+```
+
+Warning: If you add TestPyPI as a project index, uv may try to resolve
+build-time dependencies (like `hatchling`) from TestPyPI first. Because
+TestPyPI often lacks modern dependency versions (e.g., `packaging>=21.3`),
+`uv build` can fail with unsatisfiable requirements. Either avoid adding the
+index globally, use the environment variable approach above, or build with:
+
+```bash
+uv build --index-strategy unsafe-best-match
 ```
 
 ### Publish to TestPyPI
@@ -107,6 +123,13 @@ uv publish --index testpypi --token pypi-YOUR_TOKEN_HERE
 # Or set token as environment variable
 export UV_PUBLISH_TOKEN="pypi-YOUR_TOKEN_HERE"
 uv publish --index testpypi
+```
+
+Or, without adding a project index, use the environment variable:
+
+```bash
+export UV_PUBLISH_URL="https://test.pypi.org/legacy/"
+uv publish
 ```
 
 ### Publish to PyPI
