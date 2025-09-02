@@ -54,17 +54,23 @@ You will be prompted for your TestPyPI API token (starts with `pypi-`).
 
 To test your uploaded package:
 
-1. Install from TestPyPI:
+1. Create and activate a virtual environment:
+```bash
+uv venv test-env
+source test-env/bin/activate  # On Windows: test-env\Scripts\activate
+```
+
+2. Install from TestPyPI:
 ```bash
 uv pip install --index-url https://test.pypi.org/simple/ --no-deps example-package-rube
 ```
 
-2. Start a Python shell:
+3. Start a Python shell:
 ```bash
 uv run python
 ```
 
-3. Test the package in the Python shell:
+4. Test the package in the Python shell:
 ```python
 from example_package_rube import example
 example.add_one(2)
