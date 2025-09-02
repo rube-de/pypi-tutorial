@@ -1,6 +1,6 @@
 # Example Package
 
-[![Publish to PyPI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/publish.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/publish.yml)
+[![Publish to PyPI](https://github.com/rube-de/pypi-tutorial/actions/workflows/publish.yml/badge.svg)](https://github.com/rube-de/pypi-tutorial/actions/workflows/publish.yml)
 [![PyPI version](https://badge.fury.io/py/example-package-rube.svg)](https://badge.fury.io/py/example-package-rube)
 
 This is a simple example package with **automated PyPI publishing** via GitHub Actions. You can use
