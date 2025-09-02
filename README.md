@@ -3,9 +3,7 @@
 [![Publish to PyPI](https://github.com/rube-de/pypi-tutorial/actions/workflows/publish.yml/badge.svg)](https://github.com/rube-de/pypi-tutorial/actions/workflows/publish.yml)
 [![PyPI version](https://badge.fury.io/py/example-package-rube.svg)](https://badge.fury.io/py/example-package-rube)
 
-This is a simple example package with **automated PyPI publishing** via GitHub Actions. You can use
-[GitHub-flavored Markdown](https://guides.github.com/features/mastering-markdown/)
-to write your content.
+This is a simple example package with **automated PyPI publishing** via GitHub Actions.
 
 ## 🚀 Key Features
 
