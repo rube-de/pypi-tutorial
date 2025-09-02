@@ -1,0 +1,46 @@
+name: Publish to TestPyPI
+
+on:
+  push:
+    tags:
+      - 'v*'  # All version tags go to TestPyPI for testing
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/example-package-rube
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
+      with:
+        enable-cache: true
+    
+    - name: Set up Python
+      run: uv python install 3.12
+    
+    - name: Build package
+      run: uv build
+    
+    - name: Publish to TestPyPI
+      env:
+        UV_PUBLISH_URL: https://test.pypi.org/legacy/
+      run: |
+        echo "🧪 Publishing version $(git describe --tags) to TestPyPI"
+        uv publish dist/*
+    
+    - name: Test installation
+      run: |
+        echo "📥 Testing installation from TestPyPI..."
+        uv pip install --index-url https://test.pypi.org/simple/ \
+                       --extra-index-url https://pypi.org/simple/ \
+                       example-package-rube
